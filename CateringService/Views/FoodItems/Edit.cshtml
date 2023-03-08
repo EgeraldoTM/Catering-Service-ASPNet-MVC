@@ -1,0 +1,47 @@
+﻿@model CateringService.Web.ViewModels.ItemWithCategoriesVM
+
+@{
+	ViewData["Title"] = "Edit Item";
+}
+
+<h2>Edit Food Item</h2>
+<hr />
+
+<div class="row">
+	<div class="col-md-4">
+		<form asp-action="Edit">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" asp-for="FoodItemDto.Id" />
+			<div class="form-group">
+				<label asp-for="FoodItemDto.Name" class="control-label"></label>
+				<input asp-for="FoodItemDto.Name" class="form-control" />
+				<span asp-validation-for="FoodItemDto.Name" class="text-danger"></span>
+			</div>
+			<br />
+			<div class="form-group">
+				<label asp-for="FoodItemDto.Description" class="control-label"></label>
+				<input asp-for="FoodItemDto.Description" class="form-control" />
+				<span asp-validation-for="FoodItemDto.Description" class="text-danger"></span>
+			</div>
+			<br />
+			<div class="form-group">
+				@Html.LabelFor(m => m.FoodItemDto.CategoryId)
+				@Html.DropDownListFor(m => m.FoodItemDto.CategoryId, new SelectList(Model.CategoryDtos, "Id", "Name"),"Select Category", new{@class="form-control"})
+			</div>
+			<br />
+			<div class="form-group">
+				<label asp-for="FoodItemDto.Price" class="control-label"></label>
+				<input asp-for="FoodItemDto.Price" class="form-control" />
+				<span asp-validation-for="FoodItemDto.Price" class="text-danger"></span>
+			</div>
+			<br />
+			<div class="form-group">
+				<input type="submit" value="Save" class="btn btn-primary" /> |
+				<a asp-action="Index">Back</a>
+			</div>
+		</form>
+	</div>
+</div>
+@section Scripts{
+	<partial name="_ValidationScriptsPartial" />
+}

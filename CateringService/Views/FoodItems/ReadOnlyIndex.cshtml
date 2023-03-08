@@ -1,0 +1,56 @@
+﻿@{
+	ViewData["Title"] = "Food Items";
+}
+<h1>Food Items</h1>
+
+<table id="items" class="table">
+	<thead>
+		<tr>
+			<th>
+				Name
+			</th>
+			<th>
+				Description
+			</th>
+			<th>
+				Category
+			</th>
+			<th>
+				Price
+			</th>
+		</tr>
+	</thead>
+</table>
+
+@section Scripts{
+	<script>
+		$(document).ready(function () {
+			var table = $('#items').DataTable({
+				ajax: {
+					url: "/api/fooditems/",
+					dataSrc: ""
+				},
+				columns: [
+					{
+						data: "name",
+						//render: function(data, type, item){
+						//	return "<a href='/food/details/" + item.id + "'>" + item.name + "</a>";
+						//}
+					},
+					{
+						data: "description"
+					},
+					{
+						data: "category.name"
+					},
+					{
+						data: "price",
+						render: function (salary) {
+							return '$' + salary;
+						}
+					},
+				]
+			});
+		});
+	</script>
+}

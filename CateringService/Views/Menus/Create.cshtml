@@ -1,0 +1,85 @@
+﻿@model dynamic
+
+<h2>New Menu</h2>
+<hr />
+
+<div class="row">
+	<div class="col-md-4">
+		<form id="newMenu">
+			<div class="form-group">
+				<label>Date</label>
+				<input id="date" type="date" value="" class="form-control" />
+			</div>
+			<br />
+			<div class="form-group">
+				<label>Food Name</label>
+				<div class="tt-container"></div>
+				<input id="food" type="text" value="" class="form-control" />
+			</div>
+			<br />
+			<ul id="foodItems" class="list-group"></ul>
+
+			<br />
+			<button class="btn btn-success">Submit</button> | <a asp-action="Index" class="btn btn-primary">Back</a>
+		</form>
+	</div>
+</div>
+@section scripts
+	{
+	<script>
+		$(document).ready(function () {
+
+			var vm = {
+				foodIds: []
+			};
+
+			var foods = new Bloodhound({
+				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+				queryTokenizer: Bloodhound.tokenizers.whitespace,
+				remote: {
+					url: '../api/fooditems?query=%QUERY',
+					wildcard: '%QUERY'
+				}
+			});
+
+			$('#food').typeahead({
+				minLength: 2,
+				highlight: true
+			}, {
+				name: 'foods',
+				display: 'name',
+				source: foods
+			}).on("typeahead:select", function (e, food) {
+
+				if (!vm.foodIds.includes(food.id)) {
+					$("#foodItems").append("<li class='list-group-item'>" + food.name + "</li>");
+					$("#food").typeahead("val", "");
+					vm.foodIds.push(food.id);
+				} else {
+					toastr.error("Data already exists");
+				}
+			});
+
+			var input;
+			$("#newMenu").submit(function (e) {
+				e.preventDefault();
+
+				input = $('#date').val();
+				vm.date = input;
+
+				$.ajax({
+					url: "/api/menus",
+					method: "post",
+					data: vm
+				})
+					.done(function () {
+						toastr.success("Menu successfully created.");
+					})
+					.fail(function () {
+						toastr.error("Something unexpected happened.");
+					});
+				$('#food').val('');
+			});
+		});
+	</script>
+}

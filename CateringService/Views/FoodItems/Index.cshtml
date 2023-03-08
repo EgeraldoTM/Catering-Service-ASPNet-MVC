@@ -1,0 +1,85 @@
+﻿@{
+	ViewData["Title"] = "Food Items";
+}
+<h1>Food Items</h1>
+
+<p>
+	<a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add New</a>
+</p>
+
+<table id="items" class="table">
+	<thead>
+		<tr>
+			<th>
+				Name
+			</th>
+			<th>
+				Description
+			</th>
+			<th>
+				Category
+			</th>
+			<th>
+				Price
+			</th>
+			<th>
+				Delete
+			</th>
+		</tr>
+	</thead>
+</table>
+
+@section Scripts{
+	<script>
+		$(document).ready(function () {
+			var table = $('#items').DataTable({
+				ajax: {
+					url: "/api/fooditems/",
+					dataSrc: ""
+				},
+				columns: [
+					{
+						data: "name",
+						render: function (data, type, item) {
+							return "<a href='/fooditems/edit/" + item.id + "'>" + item.name + "</a>";
+						}
+					},
+					{
+						data: "description"
+					},
+					{
+						data: "category.name"
+					},
+					{
+						data: "price",
+						render: function (price) {
+							return '$' + price;
+						}
+					},
+					{
+						data: "id",
+						render: function (data) {
+							return "<button class='btn btn-danger js-delete' data-item-id=" + data + "><i class='bi bi-trash'></i> Delete</button>";
+						}
+					}
+				]
+			});
+
+			$("#items").on("click", ".js-delete", function () {
+				var button = $(this);
+
+				bootbox.confirm("Are you sure you want to delete this item?", function(result) {
+					if(result) {
+						$.ajax({
+							url: "/api/fooditems/" + button.attr("data-item-id"),
+							method: "DELETE",
+							success: function () {
+								table.row(button.parents("tr")).remove().draw();
+							}
+						});
+					}
+				});
+			});
+		});
+	</script>
+}

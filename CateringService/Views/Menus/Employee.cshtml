@@ -1,0 +1,154 @@
+﻿@model CateringService.Web.ViewModels.MenuVM
+
+@{
+	ViewData["Title"] = "Menu";
+}
+
+<h1>Menu</h1>
+
+<div class="menu">
+	@foreach (var category in Model.Categories)
+	{
+		<h2>@category</h2>
+		foreach (var item in Model.Menu.FoodItems.Where(f => f.Category!.Name == category))
+		{
+			<div class="item">
+				<h3 class="name">@item.Name</h3>
+				<p class="description">@item.Description</p>
+				<p class="price">@item.Price</p>
+				<div class="quantity">
+					<label for="item-quantity">Quantity:</label>
+					<input type="number" id="item-quantity" name="item-quantity" min="1" max="10" value="1">
+				</div>
+				<button id="@item.Id" class="add-button">+</button>
+			</div>
+		}
+	}
+	<button class="submit-button">Place Order</button>
+</div>
+
+
+@section Style1{
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+		}
+
+		h1, h2, h3 {
+			margin: 0;
+			padding: 0;
+		}
+
+		h1 {
+			font-size: 36px;
+			text-align: center;
+			margin-bottom: 20px;
+		}
+
+		h2 {
+			font-size: 24px;
+			margin-top: 20px;
+			margin-bottom: 10px;
+		}
+
+		h3 {
+			font-size: 18px;
+			margin-top: 10px;
+			margin-bottom: 5px;
+		}
+
+		.item {
+			margin-bottom: 20px;
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.name {
+			font-weight: bold;
+		}
+
+		.description {
+			margin-top: 5px;
+			margin-bottom: 10px;
+		}
+
+		.price {
+			font-size: 18px;
+			font-weight: bold;
+		}
+
+		.add-button {
+			margin: 10px;
+			margin-top: 20px;
+			margin-bottom: 20px;
+			background-color: #337ab7;
+			color: #fff;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+			.add-button.added {
+				background-color: transparent;
+				color: #6c757d;
+				border: 1px solid #6c757d;
+			}
+
+		.submit-button {
+			margin-top: 10px;
+			background-color: #337ab7;
+			color: #fff;
+			border: none;
+			font-size: 14px;
+			padding: 3px 8px;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+			.submit-button:hover {
+				background-color: #23527c;
+			}
+
+	</style>
+	}
+@section Scripts{
+	<script>
+		$(document).ready(function () {
+			var vm = {
+				details: []
+			};
+			var id;
+			var qty;
+			var price;
+
+			$('.add-button').click(function () {
+				$(this).text('Added').attr('disabled', true).toggleClass('added');
+
+				id = $(this).attr('id');
+				price = $(this).siblings().children('.item-price').text();
+				qty = $(this).siblings().children('.item-price').text();
+				vm.details.push({ foodItemId: id, quantity: qty, price: price });
+				console.log(vm);
+			});
+			$('.submit-button').click(function () {
+				$('.item-button').text('+').attr('disabled', false).toggleClass('added');
+				$.ajax({
+					url: "/api/employeeorders",
+					method: "post",
+					data: vm
+				})
+					.done(function () {
+						console.log("ok");
+					})
+					.fail(function () {
+
+					});
+				vm.details = [];
+			});
+		});
+	</script>
+	}

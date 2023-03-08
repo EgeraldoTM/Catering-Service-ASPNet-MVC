@@ -1,0 +1,111 @@
+﻿@using Core.Models;
+
+@model Menu
+
+<h1>Edit Menu</h1>
+
+<div class="row">
+	<div class="col-md-4">
+		<form id="edit">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" asp-for="Id" id="id" />
+			<div class="form-group">
+				<label asp-for="Date" class="control-label"></label>
+				<input asp-for="Date" id="date" class="form-control" />
+			</div>
+			<br />
+			<div class="form-group">
+				<label>Add Items</label>
+				<div class="tt-container"></div>
+				<input id="food" type="text" value="" class="form-control" />
+			</div>
+			<ul id="foodItems" class="list-group"></ul>
+			<br />
+			<button class="btn btn-success">Submit</button> | <a asp-action="Index" class="btn btn-primary">Back</a>
+		</form>
+	</div>
+</div>
+<br />
+<div class="row" id="editMenu">
+	<div class="col-md-4">
+		<ul data-menu-id="@Model.Id" id="ul-list">
+			@foreach (var item in Model.FoodItems)
+			{
+				<li style="line-height:50px" class="item" id="@item.Id">@item.Name <button class='js-delete btn btn-danger'>Remove</button></li>
+
+			}
+		</ul>
+	</div>
+</div>
+
+@section scripts{
+	<script>
+		$(document).ready(function () {
+
+			var vm = {
+				foodIds: []
+			};
+
+			var foods = new Bloodhound({
+				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+				queryTokenizer: Bloodhound.tokenizers.whitespace,
+				remote: {
+					url: '/api/fooditems?query=%QUERY',
+					wildcard: '%QUERY'
+				}
+			});
+
+			$('#food').typeahead({
+				minLength: 2,
+				highlight: true
+			}, {
+				name: 'foods',
+				display: 'name',
+				source: foods
+			}).on("typeahead:select", function (e, food) {
+				$("#foodItems").append("<li class='list-group-item'>" + food.name + "</li>");
+				$("#food").typeahead("val", "");
+				vm.foodIds.push(food.id);
+			});
+
+			$("#editMenu").on("click", ".js-delete", function () {
+				var button = $(this);
+				if (confirm("Are you sure you want to delete this item?")) {
+					$.ajax({
+						url: "/menus/deleteItem/" + button.parent().parent().attr("data-menu-id"),
+						method: "DELETE",
+						data: { foodItemId: button.parent().attr("id") },
+						success: function () {
+							button.parent().remove();
+							console.log("Ok");
+						}
+					});
+				}
+			});
+
+			var input;
+			var id;
+			$("#edit").submit(function (e) {
+				e.preventDefault();
+
+				id = $('#id').val();
+				console.log(id);
+
+				input = $('#date').val();
+				vm.date = input;
+
+				$.ajax({
+					url: "/api/menus/" + id,
+					method: "put",
+					data: vm
+				})
+					.done(function () {
+						toastr.success("Menu successfully saved.");
+					})
+					.fail(function () {
+						toastr.error("Something unexpected happened.");
+					});
+			});
+		});
+	</script>
+}
