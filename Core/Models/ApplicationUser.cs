@@ -2,7 +2,7 @@
 using Core.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace CateringService.Models;
+namespace Core.Models;
 
 public class ApplicationUser : IdentityUser
 {
