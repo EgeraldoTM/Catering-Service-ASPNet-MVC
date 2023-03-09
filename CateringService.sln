@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringService.Web", "Cate
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringService.Core", "Core\CateringService.Core.csproj", "{7C8E866E-9EC9-4CD9-9EE1-5183AB3FFFA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CateringService.Infrastructure", "Infrastructure\CateringService.Infrastructure.csproj", "{885E2970-46F4-430D-9F73-F9C43EF2911E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringService.Infrastructure", "Infrastructure\CateringService.Infrastructure.csproj", "{885E2970-46F4-430D-9F73-F9C43EF2911E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CateringService.Tests", "CateringService.Tests\CateringService.Tests.csproj", "{08C522DC-CD8E-4808-9EEA-5328B753720C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{885E2970-46F4-430D-9F73-F9C43EF2911E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{885E2970-46F4-430D-9F73-F9C43EF2911E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{885E2970-46F4-430D-9F73-F9C43EF2911E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08C522DC-CD8E-4808-9EEA-5328B753720C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08C522DC-CD8E-4808-9EEA-5328B753720C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08C522DC-CD8E-4808-9EEA-5328B753720C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08C522DC-CD8E-4808-9EEA-5328B753720C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

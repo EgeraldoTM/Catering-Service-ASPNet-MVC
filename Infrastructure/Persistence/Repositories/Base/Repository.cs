@@ -35,5 +35,9 @@ namespace CateringService.Infrastructure.Persistence.Repositories.Base
         {
             _context.Set<TEntity>().Add(entity);
         }
+        public void Delete(TEntity entity)
+        {
+            _context.Set<TEntity>().Remove(entity);
+        }
     }
 }

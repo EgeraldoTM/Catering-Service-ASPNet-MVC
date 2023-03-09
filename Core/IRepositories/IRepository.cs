@@ -13,5 +13,6 @@ namespace CateringService.Core.IRepositories
 		Task<IEnumerable<TEntity>> GetAll();
 		Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate);
 		void Add(TEntity entity);
+		void Delete(TEntity entity);
 	}
 }

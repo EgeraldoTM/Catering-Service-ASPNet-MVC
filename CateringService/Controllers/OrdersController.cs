@@ -77,6 +77,18 @@ public class OrdersController : Controller
 		return RedirectToAction(nameof(Edit));
 	}
 
+	public async Task<IActionResult> RemoveItem(int id)
+	{
+		var orderDetail = await _detailRepository.Get(id);
+
+		if(orderDetail != null) 
+			_detailRepository.Delete(orderDetail);
+
+		await _unitOfWork.CompleteAsync();
+
+		return RedirectToAction(nameof(Edit));
+	}
+
 	public async Task<IActionResult> Delete(int id)
 	{
 		var order = await _orderRepository.Get(id);
