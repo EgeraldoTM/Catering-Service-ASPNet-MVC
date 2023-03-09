@@ -1,7 +1,7 @@
 using CateringService.Core.IRepositories;
+using CateringService.Core.Services;
 using CateringService.Data;
 using CateringService.Infrastructure.Persistence.Repositories.Base;
-using CateringService.Models;
 using Core;
 using Core.IRepositories;
 using Core.Models;
@@ -20,6 +20,8 @@ builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IRepository<OrderDetail>, Repository<OrderDetail>>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

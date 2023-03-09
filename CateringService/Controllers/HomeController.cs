@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using CateringService.Models;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CateringService.Controllers

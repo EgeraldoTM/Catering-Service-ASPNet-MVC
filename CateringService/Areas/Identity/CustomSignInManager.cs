@@ -1,4 +1,4 @@
-﻿using CateringService.Models;
+﻿using Core.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;

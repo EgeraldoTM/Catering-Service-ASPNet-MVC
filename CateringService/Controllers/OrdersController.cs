@@ -15,7 +15,7 @@ public class OrdersController : Controller
 	private readonly IOrderRepository _orderRepository;
 	private readonly IRepository<OrderDetail> _detailRepository;
     private readonly IUnitOfWork _unitOfWork;
-    public OrdersController(IOrderRepository orderRepository, IRepository<OrderDetail> detailRepository IUnitOfWork unitOfWork)
+    public OrdersController(IOrderRepository orderRepository, IRepository<OrderDetail> detailRepository, IUnitOfWork unitOfWork)
     {
         _orderRepository = orderRepository;
 		_detailRepository = detailRepository;
