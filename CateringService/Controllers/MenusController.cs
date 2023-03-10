@@ -23,14 +23,14 @@ public class MenusController : Controller
 		if (menu == null/* || !menu.FoodItems.Any()*/)
 			return View("Empty");
 
-		var categories = menu.FoodItems.Select(x => x.Category!.Name).ToList();
+		var categories = menu.FoodItems.Select(x => x.Category!.Name).Distinct().ToList();
 
 		var viewModel = new MenuVM
 		{
 			Menu = menu,
 			Categories = categories
 		};
-		return View("CookIndex", viewModel);
+		return View("Cook", viewModel);
 		//return View("Employee", viewModel);
 	}
 

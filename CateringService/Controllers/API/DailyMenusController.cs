@@ -9,12 +9,12 @@ namespace CateringService.Web.Controllers.API;
 
 [Route("api/[controller]")]
 [ApiController]
-public class MenusController : ControllerBase
+public class DailyMenusController : ControllerBase
 {
 	private readonly IFoodItemRepository _foodItemRepository;
 	private readonly IMenuRepository _menuRepository;
 	private readonly IUnitOfWork _unitOfWork;
-	public MenusController(IFoodItemRepository foodItemRepository, IMenuRepository menuRepository, IUnitOfWork unitOfWork)
+	public DailyMenusController(IFoodItemRepository foodItemRepository, IMenuRepository menuRepository, IUnitOfWork unitOfWork)
 	{
 		_foodItemRepository = foodItemRepository;
 		_menuRepository = menuRepository;
