@@ -5,7 +5,6 @@ using Core;
 using Core.IRepositories;
 using Core.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CateringService.Web.Controllers;
 

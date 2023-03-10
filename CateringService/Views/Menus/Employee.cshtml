@@ -4,29 +4,40 @@
 	ViewData["Title"] = "Menu";
 }
 
-<h1>Menu</h1>
+@if (Model.Menu.FoodItems.Any())
+{
+	<h1>Menu</h1>
 
-<div class="menu">
-	@foreach (var category in Model.Categories)
-	{
-		<h2>@category</h2>
-		foreach (var item in Model.Menu.FoodItems.Where(f => f.Category!.Name == category))
+	<div class="menu">
+		@foreach (var category in Model.Categories)
 		{
-			<div class="item">
-				<h3 class="name">@item.Name</h3>
-				<p class="description">@item.Description</p>
-				<p class="price">@item.Price</p>
-				<div class="quantity">
-					<label for="item-quantity">Quantity:</label>
-					<input type="number" id="item-quantity" name="item-quantity" min="1" max="10" value="1">
+			<h2>@category</h2>
+			foreach (var item in Model.Menu.FoodItems.Where(f => f.Category!.Name == category))
+			{
+				<div class="item">
+					<h3 class="name">@item.Name</h3>
+					<p class="description">@item.Description</p>
+					<p class="price">@item.Price</p>
+					<div class="quantity">
+						<label for="item-quantity">Quantity:</label>
+						<input type="number" id="item-quantity" name="item-quantity" min="1" max="10" value="1">
+					</div>
+					<button id="@item.Id" class="add-button">+</button>
 				</div>
-				<button id="@item.Id" class="add-button">+</button>
-			</div>
+			}
 		}
-	}
-	<button class="submit-button">Place Order</button>
-</div>
-
+		<button class="submit-button">Place Order</button>
+	</div>
+}
+else
+{
+	<div class="row">
+		<div class="col-md-6 offset-3 text-center">
+			<h2>No Menu For Today Yet!</h2>
+			<hr />
+		</div>
+	</div>
+}
 
 @section Style1{
 	<style>
