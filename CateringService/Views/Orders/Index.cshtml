@@ -1,5 +1,9 @@
 ﻿@model CateringService.Web.ViewModels.OrderVM
 
+@{
+	ViewData["Title"] = "Your Order";
+}
+
 <form class="col-md-4" asp-controller="Orders" asp-action="Index" method="get">
 	<div class="row">
 		<div class="col">
@@ -11,39 +15,52 @@
 	</div>
 </form>
 
-<div class="row">
-	<div class="col-md-8 offset-2">
-		<p>
-			<h4>Your Order</h4>
-		</p>
-
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Items</th>
-					<th>Total</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td class="align-middle">
-						<ul style="list-style-type:none">
-							@foreach (var detail in Model.Order.OrderDetails)
-							{
-								<li>
-									<div class="alert alert-info" role="alert">
-										<span class="badge bg-success">@detail.Quantity</span> [@detail.Price.ToString("c")] - @detail.FoodItem.Name
-									</div>
-								</li>
-							}
-						</ul>
-					</td>
-					<td class="align-middle">
-						@Model.Order.OrderDetails.Select(m => m.Price * m.Quantity).Sum().ToString("c")
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<a asp-action="Edit" asp-route-id="@Model.Order.Id" class="btn btn-primary">Edit Order</a>
+@if (Model.Order == null)
+{
+	<div class="row">
+		<div class="col-md-6 offset-3 text-center">
+			<h2>No order placed for this day</h2>
+			<hr />
+		</div>
 	</div>
-</div>
+	<a asp-controller="Menus" asp-action="Index" class="btn btn-primary">Go to menu</a>
+}
+else
+{
+	<div class="row">
+		<div class="col-md-8 offset-2">
+			<p>
+				<h4>Your Order</h4>
+			</p>
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Items</th>
+						<th>Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="align-middle">
+							<ul style="list-style-type:none">
+								@foreach (var detail in Model.Order.OrderDetails)
+								{
+									<li>
+										<div class="alert alert-info" role="alert">
+											<span class="badge bg-success">@detail.Quantity</span> [@detail.Price.ToString("c")] - @detail.FoodItem.Name
+										</div>
+									</li>
+								}
+							</ul>
+						</td>
+						<td class="align-middle">
+							@Model.Order.OrderDetails.Select(m => m.Price * m.Quantity).Sum().ToString("c")
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<a asp-action="Edit" asp-route-id="@Model.Order.Id" class="btn btn-primary">Edit Order</a>
+		</div>
+	</div>
+}

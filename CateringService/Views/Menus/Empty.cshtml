@@ -1,1 +1,12 @@
-﻿<h1>No Menu</h1>
+﻿@using CateringService.Core;
+
+<div class="row">
+	<div class="col-md-6 offset-3 text-center">
+		<h2>No Menu For Today Yet!</h2>
+		<hr />
+	</div>
+</div>
+@if (User.IsInRole(RoleName.Cook))
+{
+	<a asp-action="Create" class="btn btn-success">Create Menu</a>
+}

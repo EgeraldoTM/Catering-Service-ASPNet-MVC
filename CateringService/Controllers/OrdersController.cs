@@ -28,9 +28,6 @@ public class OrdersController : Controller
 
 		var order = await _orderRepository.Get(filter, emplyeeId);
 
-		if (order == null)
-			return NotFound();
-
 		var viewModel = new OrderVM
 		{
 			Order = order
