@@ -14,7 +14,7 @@ namespace Infrastructure.Persistence.Repositories
 		{
 			var foodItems = _context.FoodItems.Include(f => f.Category).Where(f => f.IsDeleted == false).AsQueryable();
 
-			if (!string.IsNullOrEmpty(filter))
+			if (!string.IsNullOrWhiteSpace(filter))
 				foodItems = foodItems.Where(f => f.Name.Contains(filter));
 
 			return await foodItems.ToListAsync();
