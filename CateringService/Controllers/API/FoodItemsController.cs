@@ -1,12 +1,10 @@
-﻿using System.Data;
-using AutoMapper;
+﻿using AutoMapper;
 using CateringService.Core;
 using CateringService.Core.DTOs;
 using Core;
 using Core.IRepositories;
 using Core.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CateringService.Web.Controllers.API;
@@ -24,6 +22,7 @@ public class FoodItemsController : ControllerBase
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
+
     public async Task<IActionResult> Get(string? query = null)
     {
         var foodItems = await _foodItemRepository.GetWithCategory(query);
@@ -32,7 +31,8 @@ public class FoodItemsController : ControllerBase
         return Ok(foodItemDtos);
 	}
 
-	//[Authorize(Roles = RoleName.Cook)]
+
+	[Authorize(Roles = RoleName.Cook)]
 	[HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {

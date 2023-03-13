@@ -11,17 +11,19 @@
 	<div class="menu">
 		@foreach (var category in Model.Categories)
 		{
-			<h2>@category</h2>
+			<div class="category">
+				<h2>@category</h2>
+			</div>
 			foreach (var item in Model.Menu.FoodItems.Where(f => f.Category!.Name == category))
 			{
 				<div class="item">
 					<h3 class="name">@item.Name</h3>
 					<p class="description">@item.Description</p>
-					<p class="price">@item.Price</p>
-					<div class="quantity">
-						<label for="item-quantity">Quantity:</label>
-						<input type="number" id="item-quantity" name="item-quantity" min="1" max="10" value="1">
-					</div>
+					<p class="price">@item.Price.ToString("c")</p>
+					@*<div class="quantity">
+		<label for="item-quantity">Quantity:</label>
+		<input type="number" id="item-quantity" name="item-quantity" min="1" max="10" value="1">
+		</div>*@
 					<button id="@item.Id" class="add-button">+</button>
 				</div>
 			}
@@ -87,6 +89,9 @@ else
 		}
 
 		.price {
+			margin: 10px;
+			margin-top: 25px;
+			position: relative;
 			font-size: 18px;
 			font-weight: bold;
 		}
@@ -95,6 +100,7 @@ else
 			margin: 10px;
 			margin-top: 20px;
 			margin-bottom: 20px;
+			margin-left: 20px;
 			background-color: #337ab7;
 			color: #fff;
 			border: none;
@@ -124,6 +130,13 @@ else
 				background-color: #23527c;
 			}
 
+		.category {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 0 10px;
+			line-height: 1.5em;
+		}
 	</style>
 	}
 @section Scripts{

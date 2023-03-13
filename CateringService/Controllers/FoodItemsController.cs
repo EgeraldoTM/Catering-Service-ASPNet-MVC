@@ -1,5 +1,4 @@
-﻿using System.Data;
-using AutoMapper;
+﻿using AutoMapper;
 using CateringService.Core;
 using CateringService.Core.DTOs;
 using CateringService.Core.IRepositories;
@@ -34,7 +33,7 @@ public class FoodItemsController : Controller
 		return View();
 	}
 
-	//[Authorize(Roles = RoleName.Cook)]
+	[Authorize(Roles = RoleName.Cook)]
 	public async Task<IActionResult> Create()
 	{
 		var categories = await _categoryRepository.GetAll();
@@ -48,7 +47,7 @@ public class FoodItemsController : Controller
 		return View(viewModel);
 	}
 
-	//[Authorize(Roles = RoleName.Cook)]
+	[Authorize(Roles = RoleName.Cook)]
 	[HttpPost]
 	public async Task<IActionResult> Create(FoodItemDto foodItemDto)
 	{
@@ -73,7 +72,7 @@ public class FoodItemsController : Controller
 		return View(viewModel);
 	}
 
-	//[Authorize(Roles = RoleName.Cook)]
+	[Authorize(Roles = RoleName.Cook)]
 	public async Task<IActionResult> Edit(int id)
 	{
 		var foodItem = await _foodItemRepository.Get(id);
@@ -92,7 +91,7 @@ public class FoodItemsController : Controller
 		return View(viewModel);
 	}
 
-	//[Authorize(Roles = RoleName.Cook)]
+	[Authorize(Roles = RoleName.Cook)]
 	[HttpPost]
 	public async Task<IActionResult> Edit(int id, FoodItemDto foodItemDto)
 	{

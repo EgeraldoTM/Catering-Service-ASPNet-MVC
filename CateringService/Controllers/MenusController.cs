@@ -1,90 +1,96 @@
-﻿using CateringService.Web.ViewModels;
+﻿using CateringService.Core;
+using CateringService.Web.ViewModels;
 using Core;
 using Core.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CateringService.Web.Controllers;
 
 public class MenusController : Controller
 {
-	private readonly IFoodItemRepository _foodItemRepository;
-	private readonly IMenuRepository _menuRepository;
-	private readonly IUnitOfWork _unitOfWork;
+    private readonly IFoodItemRepository _foodItemRepository;
+    private readonly IMenuRepository _menuRepository;
+    private readonly IUnitOfWork _unitOfWork;
     public MenusController(IFoodItemRepository foodItemRepository, IMenuRepository menuRepository, IUnitOfWork unitOfWork)
     {
-		_foodItemRepository = foodItemRepository;
-		_menuRepository = menuRepository;
-		_unitOfWork = unitOfWork;
+        _foodItemRepository = foodItemRepository;
+        _menuRepository = menuRepository;
+        _unitOfWork = unitOfWork;
     }
+
     public async Task<IActionResult> Index()
-	{
-		var menu = await _menuRepository.GetForToday();
+    {
+        var menu = await _menuRepository.GetForToday();
 
-		if (menu == null/* || !menu.FoodItems.Any()*/)
-			return View("Empty");
+        if (menu == null)
+            return View("Empty");
 
-		var categories = menu.FoodItems.Select(x => x.Category!.Name).Distinct().ToList();
+        var categories = menu.FoodItems.Select(x => x.Category!.Name).Distinct().ToList();
 
-		var viewModel = new MenuVM
-		{
-			Menu = menu,
-			Categories = categories
-		};
-		return View("Cook", viewModel);
-		//return View("Employee", viewModel);
-	}
+        var viewModel = new MenuVM
+        {
+            Menu = menu,
+            Categories = categories
+        };
 
-	//[Authorize(Roles = RoleName.Cook)]
-	public IActionResult Create()
-	{
-		return View();
-	}
+        if (User.IsInRole(RoleName.Cook))
+            return View("Cook", viewModel);
 
-	//[Authorize(Roles = RoleName.Cook)]
-	public async Task<IActionResult> Edit(int id)
-	{
-		var menu = await _menuRepository.Get(id);
+        return View("Employee", viewModel);
+    }
 
-		if (menu == null)
-			return NotFound("Menu not found");
+    [Authorize(Roles = RoleName.Cook)]
+    public IActionResult Create()
+    {
+        return View();
+    }
 
-		return View(menu);
-	}
+    [Authorize(Roles = RoleName.Cook)]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var menu = await _menuRepository.Get(id);
 
-	//[Authorize(Roles = RoleName.Cook)]
-	[HttpDelete]
-	public async Task<IActionResult> DeleteItem(int id, int foodItemId)
-	{
-		var menu = await _menuRepository.Get(id);
+        if (menu == null)
+            return NotFound("Menu not found");
 
-		if (menu == null)
-			return NotFound("Menu not found");
+        return View(menu);
+    }
 
-		var item = await _foodItemRepository.Get(foodItemId);
+    [Authorize(Roles = RoleName.Cook)]
+    [HttpDelete]
+    public async Task<IActionResult> DeleteItem(int id, int foodItemId)
+    {
+        var menu = await _menuRepository.Get(id);
 
-		if (item == null)
-			return BadRequest("Invalid food item Id");
+        if (menu == null)
+            return NotFound("Menu not found");
 
-		menu.FoodItems.Remove(item);
+        var item = await _foodItemRepository.Get(foodItemId);
 
-		await _unitOfWork.CompleteAsync();
+        if (item == null)
+            return BadRequest("Invalid food item Id");
 
-		return NoContent();
-	}
+        menu.FoodItems.Remove(item);
 
-	//[Authorize(Roles = RoleName.Cook)]
-	[HttpPost]
-	public async Task<IActionResult> Delete(int id)
-	{
-		var menu = await _menuRepository.Get(id);
+        await _unitOfWork.CompleteAsync();
 
-		if (menu == null)
-			return NotFound("Menu not found");
+        return NoContent();
+    }
 
-		menu.IsDeleted = true;
+    [Authorize(Roles = RoleName.Cook)]
+    [HttpPost]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var menu = await _menuRepository.Get(id);
 
-		await _unitOfWork.CompleteAsync();
+        if (menu == null)
+            return NotFound("Menu not found");
 
-		return RedirectToAction(nameof(Index));
-	}
+        menu.IsDeleted = true;
+
+        await _unitOfWork.CompleteAsync();
+
+        return RedirectToAction(nameof(Index));
+    }
 }

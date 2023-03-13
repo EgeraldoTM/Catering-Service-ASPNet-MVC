@@ -2,6 +2,7 @@
 
 @{
 	ViewData["Title"] = "New Menu";
+	var date = DateTime.Now.Date.ToString("yyyy-MM-dd");
 }
 
 <h2>New Menu</h2>
@@ -12,13 +13,13 @@
 		<form id="newMenu">
 			<div class="form-group">
 				<label>Date</label>
-				<input id="date" type="date" value="" class="form-control" />
+				<input id="date" type="date" value="" min="@date" max="" class="form-control" />
 			</div>
 			<br />
 			<div class="form-group">
 				<label>Food Name</label>
 				<div class="tt-container"></div>
-				<input id="food" type="text" value="" class="form-control" />
+				<input id="food" type="text" value="" maxlength="60" class="form-control" />
 			</div>
 			<br />
 			<ul id="foodItems" class="list-group"></ul>

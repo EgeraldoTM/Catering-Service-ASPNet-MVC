@@ -1,7 +1,10 @@
-﻿using CateringService.Core.DTOs;
+﻿using CateringService.Core;
+using System.Data;
+using CateringService.Core.DTOs;
 using Core;
 using Core.IRepositories;
 using Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +12,7 @@ namespace CateringService.Web.Controllers.API;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = RoleName.Cook)]
 public class DailyMenusController : ControllerBase
 {
 	private readonly IFoodItemRepository _foodItemRepository;
@@ -20,7 +24,7 @@ public class DailyMenusController : ControllerBase
 		_menuRepository = menuRepository;
 		_unitOfWork = unitOfWork;
 	}
-	//[Authorize(Roles = RoleName.Cook)]
+
 	[HttpPost]
 	public async Task<IActionResult> Create([FromForm] MenuDto menuDto)
 	{
@@ -45,7 +49,6 @@ public class DailyMenusController : ControllerBase
 		return Ok();
 	}
 
-	//[Authorize(Roles = RoleName.Cook)]
 	[HttpPut("{id}")]
 	public async Task<IActionResult> Edit(int id, [FromForm] MenuDto menuDto)
 	{

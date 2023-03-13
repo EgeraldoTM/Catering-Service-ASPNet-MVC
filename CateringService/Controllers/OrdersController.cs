@@ -13,14 +13,14 @@ public class OrdersController : Controller
 {
 	private readonly IOrderRepository _orderRepository;
 	private readonly IRepository<OrderDetail> _detailRepository;
-    private readonly IUnitOfWork _unitOfWork;
-    public OrdersController(IOrderRepository orderRepository, IRepository<OrderDetail> detailRepository, IUnitOfWork unitOfWork)
-    {
-        _orderRepository = orderRepository;
+	private readonly IUnitOfWork _unitOfWork;
+	public OrdersController(IOrderRepository orderRepository, IRepository<OrderDetail> detailRepository, IUnitOfWork unitOfWork)
+	{
+		_orderRepository = orderRepository;
 		_detailRepository = detailRepository;
-        _unitOfWork = unitOfWork;
-    }
-    public async Task<IActionResult> Index(DateTime? date)
+		_unitOfWork = unitOfWork;
+	}
+	public async Task<IActionResult> Index(DateTime? date)
 	{
 		var emplyeeId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 		var filter = date == null ? DateTime.Now.Date : date.Value;
@@ -35,7 +35,6 @@ public class OrdersController : Controller
 		return View(viewModel);
 	}
 
-	
 	public async Task<IActionResult> Edit()
 	{
 		var emplyeeId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -49,12 +48,11 @@ public class OrdersController : Controller
 	{
 		var orderDetail = await _detailRepository.Get(id);
 
-		if (orderDetail != null)
+		if (orderDetail != null && orderDetail.Quantity > 1)
 		{
 			orderDetail.Quantity--;
+			await _unitOfWork.CompleteAsync();
 		}
-
-		await _unitOfWork.CompleteAsync();
 
 		return RedirectToAction(nameof(Edit));
 	}
@@ -66,9 +64,8 @@ public class OrdersController : Controller
 		if (orderDetail != null)
 		{
 			orderDetail.Quantity++;
+			await _unitOfWork.CompleteAsync();
 		}
-
-		await _unitOfWork.CompleteAsync();
 
 		return RedirectToAction(nameof(Edit));
 	}
@@ -77,7 +74,7 @@ public class OrdersController : Controller
 	{
 		var orderDetail = await _detailRepository.Get(id);
 
-		if(orderDetail != null) 
+		if (orderDetail != null)
 			_detailRepository.Delete(orderDetail);
 
 		await _unitOfWork.CompleteAsync();
