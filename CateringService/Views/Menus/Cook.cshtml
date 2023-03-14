@@ -4,7 +4,7 @@
 	ViewData["Title"] = "Menu";
 }
 
-@if (Model.Menu.FoodItems.Any())
+@if (Model.MenuDto.FoodItems.Any())
 {
 	<h1>Menu</h1>
 
@@ -12,7 +12,7 @@
 		@foreach (var category in Model.Categories)
 		{
 			<h2>@category</h2>
-			foreach (var item in Model.Menu.FoodItems.Where(f => f.Category!.Name == category))
+			foreach (var item in Model.MenuDto.FoodItems.Where(f => f.Category!.Name == category))
 			{
 				<div class="item">
 					<div class="item-name">@item.Name</div>
@@ -24,19 +24,19 @@
 	</div>
 
 	<div class="edit">
-		<a asp-action="Edit" asp-route-id="@Model.Menu.Id" class="btn btn-outline-primary">Edit</a>
+		<a asp-action="Edit" asp-route-id="@Model.MenuDto.Id" class="btn btn-outline-primary">Edit</a>
 	</div>
 	<div class="add-new">
 		<a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> New Menu</a>
 	</div>
 
-	<a id="deleteLink" asp-action="Delete" asp-route-id="@Model.Menu.Id">Delete</a>
+	<a id="deleteLink" asp-action="Delete" asp-route-id="@Model.MenuDto.Id">Delete</a>
 	<button class="btn btn-danger" onclick="showDialog()">Delete</button>
 }
 else
 {
 	<h2>Menu has no items!</h2>
-	<a asp-action="Edit" asp-route-id="@Model.Menu.Id" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add Items</a>
+	<a asp-action="Edit" asp-route-id="@Model.MenuDto.Id" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add Items</a>
 }
 
 

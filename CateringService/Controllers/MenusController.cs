@@ -1,7 +1,10 @@
-﻿using CateringService.Core;
+﻿using AutoMapper;
+using CateringService.Core;
+using CateringService.Core.DTOs;
 using CateringService.Web.ViewModels;
 using Core;
 using Core.IRepositories;
+using Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +15,13 @@ public class MenusController : Controller
     private readonly IFoodItemRepository _foodItemRepository;
     private readonly IMenuRepository _menuRepository;
     private readonly IUnitOfWork _unitOfWork;
-    public MenusController(IFoodItemRepository foodItemRepository, IMenuRepository menuRepository, IUnitOfWork unitOfWork)
+    private readonly IMapper _mapper;
+    public MenusController(IFoodItemRepository foodItemRepository, IMenuRepository menuRepository, IUnitOfWork unitOfWork, IMapper mapper)
     {
         _foodItemRepository = foodItemRepository;
         _menuRepository = menuRepository;
         _unitOfWork = unitOfWork;
+        _mapper = mapper;
     }
 
     public async Task<IActionResult> Index()
@@ -30,7 +35,7 @@ public class MenusController : Controller
 
         var viewModel = new MenuVM
         {
-            Menu = menu,
+            MenuDto = _mapper.Map<Menu, MenuDto>(menu),
             Categories = categories
         };
 
@@ -54,7 +59,9 @@ public class MenusController : Controller
         if (menu == null)
             return NotFound("Menu not found");
 
-        return View(menu);
+        var menuDto = _mapper.Map<Menu, MenuDto>(menu);
+
+        return View(menuDto);
     }
 
     [Authorize(Roles = RoleName.Cook)]

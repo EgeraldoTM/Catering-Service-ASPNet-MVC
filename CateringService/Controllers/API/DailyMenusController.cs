@@ -26,7 +26,7 @@ public class DailyMenusController : ControllerBase
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Create([FromForm] MenuDto menuDto)
+	public async Task<IActionResult> Create([FromForm] NewMenuDto menuDto)
 	{
 		if (menuDto.Date.Date < DateTime.Now.Date)
 			return BadRequest("Cannot create a Menu for a day in the past");
@@ -50,7 +50,7 @@ public class DailyMenusController : ControllerBase
 	}
 
 	[HttpPut("{id}")]
-	public async Task<IActionResult> Edit(int id, [FromForm] MenuDto menuDto)
+	public async Task<IActionResult> Edit(int id, [FromForm] NewMenuDto menuDto)
 	{
 		var menuInDb = await _menuRepository.Get(id);
 
