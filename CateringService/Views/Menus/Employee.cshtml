@@ -6,26 +6,37 @@
 
 @if (Model.Menu.FoodItems.Any())
 {
-	<h1>Menu</h1>
+	<div class="text-center">
+		<h1><b>The Menu</b></h1>
+	</div>
+	<hr />
 
 	<div class="menu">
 		@foreach (var category in Model.Categories)
 		{
-			<div class="category">
-				<h2>@category</h2>
+			<div class="text-center">
+				<h2><b>@category</b></h2>
 			</div>
+			<hr />
 			foreach (var item in Model.Menu.FoodItems.Where(f => f.Category!.Name == category))
-			{
+			{	
+				<div class="item">
+				<h2>@item.Name <span class="w3-right w3-tag w3-dark-grey w3-round">@item.Price.ToString("c")</span></h2>
+				<p class="w3-text-grey">@item.Description</p>
+					<button id="@item.Id" class="add-button">+</button>
+				</div>
+
+				@*<hr>
 				<div class="item">
 					<h3 class="name">@item.Name</h3>
 					<p class="description">@item.Description</p>
 					<p class="price">@item.Price.ToString("c")</p>
-					@*<div class="quantity">
-		<label for="item-quantity">Quantity:</label>
-		<input type="number" id="item-quantity" name="item-quantity" min="1" max="10" value="1">
-		</div>*@
+					<div class="quantity">
+						<label for="item-quantity">Quantity:</label>
+						<input type="number" id="item-quantity" name="item-quantity" min="1" max="10" value="1">
+					</div>
 					<button id="@item.Id" class="add-button">+</button>
-				</div>
+				</div>*@
 			}
 		}
 		<button class="submit-button">Place Order</button>
@@ -43,7 +54,7 @@ else
 
 @section Style1{
 	<style>
-		body {
+		/*body {
 			font-family: Arial, sans-serif;
 		}
 
@@ -136,7 +147,51 @@ else
 			align-items: center;
 			padding: 0 10px;
 			line-height: 1.5em;
+		}*/
+
+		/*body,
+		html {
+			height: 100%
+		}*/
+
+		/*body,
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			font-family: "Amatic SC", sans-serif
+		}*/
+
+		.menu{
+			background-color: orange;
+			border-radius: 5px;
 		}
+
+		.item {
+			margin-bottom: 20px;
+			padding: 10px;
+			/*border: 1px solid #ddd;*/
+			border-radius: 5px;
+			/*display: flex;*/
+			/*justify-content: space-between;*/
+		}
+
+		.add-button {
+			margin: 0px;
+			/*margin-top: 20px;
+			margin-bottom: 20px;
+			margin-left: 20px;*/
+			background-color: #337ab7;
+			color: #fff;
+			/*border: none;*/
+			/*padding: 10px 20px;*/
+			border-radius: 5px;
+			cursor: pointer;
+			float: right;
+		}
+
 	</style>
 	}
 @section Scripts{

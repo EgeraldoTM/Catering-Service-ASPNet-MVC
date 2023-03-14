@@ -3,7 +3,7 @@
 }
 <h1>Food Items</h1>
 
-<table id="items" class="table">
+<table id="items" class="cell-border stripe hover order-column">
 	<thead>
 		<tr>
 			<th>
@@ -33,12 +33,10 @@
 				columns: [
 					{
 						data: "name",
-						//render: function(data, type, item){
-						//	return "<a href='/food/details/" + item.id + "'>" + item.name + "</a>";
-						//}
 					},
 					{
-						data: "description"
+						data: "description",
+						className: 'dt-head-center'
 					},
 					{
 						data: "category.name"

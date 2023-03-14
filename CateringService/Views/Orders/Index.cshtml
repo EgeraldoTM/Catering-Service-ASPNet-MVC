@@ -60,7 +60,10 @@ else
 					</tr>
 				</tbody>
 			</table>
-			<a asp-action="Edit" asp-route-id="@Model.Order.Id" class="btn btn-primary">Edit Order</a>
+			@if (Model.Order.OrderPlaced.Date == DateTime.Now.Date && DateTime.Now.TimeOfDay < TimeSpan.Parse("11:00"))
+			{
+				<a asp-action="Edit" asp-route-id="@Model.Order.Id" class="btn btn-primary">Edit Order</a>
+			}
 		</div>
 	</div>
 }

@@ -26,11 +26,10 @@ public class FoodItemsController : Controller
     }
     public IActionResult Index()
 	{
-		//if (User.IsInRole(RoleName.Cook))
-		//	return View();
+		if (User.IsInRole(RoleName.Cook))
+			return View();
 
-		//return View("ReadOnlyIndex");
-		return View();
+		return View("ReadOnlyIndex");
 	}
 
 	[Authorize(Roles = RoleName.Cook)]

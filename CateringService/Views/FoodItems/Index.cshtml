@@ -7,7 +7,7 @@
 	<a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add New</a>
 </p>
 
-<table id="items" class="table">
+<table id="items" class="display">
 	<thead>
 		<tr>
 			<th>
@@ -45,7 +45,8 @@
 						}
 					},
 					{
-						data: "description"
+						data: "description",
+						className: 'dt-head-center'
 					},
 					{
 						data: "category.name"
@@ -59,7 +60,7 @@
 					{
 						data: "id",
 						render: function (data) {
-							return "<button class='btn btn-danger js-delete' data-item-id=" + data + "><i class='bi bi-trash'></i> Delete</button>";
+							return "<button class='btn btn-danger js-delete' data-item-id=" + data + ">Delete</button>";
 						}
 					}
 				]
