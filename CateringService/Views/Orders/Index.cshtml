@@ -15,7 +15,7 @@
 	</div>
 </form>
 
-@if (Model.Order == null)
+@if (Model.OrderDto == null)
 {
 	<div class="row">
 		<div class="col-md-6 offset-3 text-center">
@@ -44,7 +44,7 @@ else
 					<tr>
 						<td class="align-middle">
 							<ul style="list-style-type:none">
-								@foreach (var detail in Model.Order.OrderDetails)
+								@foreach (var detail in Model.OrderDto.OrderDetails)
 								{
 									<li>
 										<div class="alert alert-info" role="alert">
@@ -55,14 +55,14 @@ else
 							</ul>
 						</td>
 						<td class="align-middle">
-							@Model.Order.OrderDetails.Select(m => m.Price * m.Quantity).Sum().ToString("c")
+							@Model.OrderDto.OrderDetails.Select(m => m.Price * m.Quantity).Sum().ToString("c")
 						</td>
 					</tr>
 				</tbody>
 			</table>
-			@if (Model.Order.OrderPlaced.Date == DateTime.Now.Date && DateTime.Now.TimeOfDay < TimeSpan.Parse("11:00"))
+			@if (Model.OrderDto.OrderPlaced.Date == DateTime.Now.Date && DateTime.Now.TimeOfDay < TimeSpan.Parse("11:00"))
 			{
-				<a asp-action="Edit" asp-route-id="@Model.Order.Id" class="btn btn-primary">Edit Order</a>
+				<a asp-action="Edit" asp-route-id="@Model.OrderDto.Id" class="btn btn-primary">Edit Order</a>
 			}
 		</div>
 	</div>

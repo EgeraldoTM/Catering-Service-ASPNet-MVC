@@ -17,7 +17,7 @@ namespace Infrastructure.Persistence.Repositories
 				.Include(o => o.Employee)
 				.Include(o => o.OrderDetails)
 				.ThenInclude(d => d.FoodItem)
-				.Where(o => o.OrderPlaced == filter && o.Employee.Id == employeeId)
+				.Where(o => o.OrderPlaced.Date == filter.Date && o.Employee.Id == employeeId && o.IsDeleted == false)
 				.FirstOrDefaultAsync();
 
 			return order;

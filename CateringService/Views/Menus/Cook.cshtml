@@ -30,7 +30,7 @@
 		<a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> New Menu</a>
 	</div>
 
-	<a id="deleteLink" asp-action="Delete" asp-route-id="@Model.MenuDto.Id">Delete</a>
+	<a id="deleteLink" asp-action="Delete" asp-controller="Menus" asp-route-id="@Model.MenuDto.Id">Delete</a>
 	<button class="btn btn-danger" onclick="showDialog()">Delete</button>
 }
 else

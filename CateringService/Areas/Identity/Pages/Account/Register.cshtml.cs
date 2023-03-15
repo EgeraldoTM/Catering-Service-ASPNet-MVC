@@ -23,6 +23,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CateringService.Areas.Identity.Pages.Account
 {
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;

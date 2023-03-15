@@ -11,6 +11,9 @@ public class MappingProfile : Profile
 		CreateMap<FoodItem, FoodItemDto>();
 		CreateMap<Category, CategoryDto>();
 		CreateMap<Menu, MenuDto>();
+		CreateMap<Order, OrderDto>();
+		CreateMap<OrderDetail, OrderDetailDto>();
+
 		CreateMap<FoodItemDto, FoodItem>();
 	}
 }

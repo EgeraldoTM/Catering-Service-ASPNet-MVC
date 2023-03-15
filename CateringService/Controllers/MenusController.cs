@@ -86,7 +86,7 @@ public class MenusController : Controller
     }
 
     [Authorize(Roles = RoleName.Cook)]
-    [HttpPost]
+    //[HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
         var menu = await _menuRepository.Get(id);

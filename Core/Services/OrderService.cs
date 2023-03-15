@@ -16,7 +16,7 @@ namespace CateringService.Core.Services
             _unitOfWork = unitOfWork;
 
         }
-        public async Task Save(OrderDto orderDto, string employeeId)
+        public async Task Save(NewOrderDto orderDto, string employeeId)
         {
             var orderInDb = await _orderRepository.GetWithDetails(employeeId);
 

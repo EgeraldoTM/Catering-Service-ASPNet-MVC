@@ -25,18 +25,6 @@
 					<p class="w3-text-grey">@item.Description</p>
 					<button id="@item.Id" price="@item.Price" class="add-button">+</button>
 				</div>
-
-				@*<hr>
-	<div class="item">
-	<h3 class="name">@item.Name</h3>
-	<p class="description">@item.Description</p>
-	<p class="price">@item.Price.ToString("c")</p>
-	<div class="quantity">
-	<label for="item-quantity">Quantity:</label>
-	<input type="number" id="item-quantity" name="item-quantity" min="1" max="10" value="1">
-	</div>
-	<button id="@item.Id" class="add-button">+</button>
-	</div>*@
 			}
 		}
 		<button class="submit-button">Place Order</button>
@@ -55,114 +43,56 @@ else
 @section Style1{
 	<style>
 		/*body {
-					font-family: Arial, sans-serif;
-				}
+							font-family: Arial, sans-serif;
+						}
+						h1 {
+							font-size: 36px;
+							text-align: center;
+							margin-bottom: 20px;
+						}
 
-				h1, h2, h3 {
-					margin: 0;
-					padding: 0;
-				}
+						.item {
+							margin-bottom: 20px;
+							padding: 10px;
+							border: 1px solid #ddd;
+							border-radius: 5px;
+							display: flex;
+							justify-content: space-between;
+						}
 
-				h1 {
-					font-size: 36px;
-					text-align: center;
-					margin-bottom: 20px;
-				}
+						.name {
+							font-weight: bold;
+						}
 
-				h2 {
-					font-size: 24px;
-					margin-top: 20px;
-					margin-bottom: 10px;
-				}
+						.description {
+							margin-top: 5px;
+							margin-bottom: 10px;
+						}
 
-				h3 {
-					font-size: 18px;
-					margin-top: 10px;
-					margin-bottom: 5px;
-				}
+						.price {
+							margin: 10px;
+							margin-top: 25px;
+							position: relative;
+							font-size: 18px;
+							font-weight: bold;
+						}
 
-				.item {
-					margin-bottom: 20px;
-					padding: 10px;
-					border: 1px solid #ddd;
-					border-radius: 5px;
-					display: flex;
-					justify-content: space-between;
-				}
+						.category {
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							padding: 0 10px;
+							line-height: 1.5em;
+						}
 
-				.name {
-					font-weight: bold;
-				}
-
-				.description {
-					margin-top: 5px;
-					margin-bottom: 10px;
-				}
-
-				.price {
-					margin: 10px;
-					margin-top: 25px;
-					position: relative;
-					font-size: 18px;
-					font-weight: bold;
-				}
-
-				.add-button {
-					margin: 10px;
-					margin-top: 20px;
-					margin-bottom: 20px;
-					margin-left: 20px;
-					background-color: #337ab7;
-					color: #fff;
-					border: none;
-					padding: 10px 20px;
-					border-radius: 5px;
-					cursor: pointer;
-				}
-
-					.add-button.added {
-						background-color: transparent;
-						color: #6c757d;
-						border: 1px solid #6c757d;
-					}
-
-				.submit-button {
-					margin-top: 10px;
-					background-color: #337ab7;
-					color: #fff;
-					border: none;
-					font-size: 14px;
-					padding: 3px 8px;
-					border-radius: 5px;
-					cursor: pointer;
-				}
-
-					.submit-button:hover {
-						background-color: #23527c;
-					}
-
-				.category {
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					padding: 0 10px;
-					line-height: 1.5em;
-				}*/
-
-		/*body,
-				html {
-					height: 100%
-				}*/
-
-		/*body,
-				h1,
-				h2,
-				h3,
-				h4,
-				h5,
-				h6 {
-					font-family: "Amatic SC", sans-serif
-				}*/
+						h1,
+						h2,
+						h3,
+						h4,
+						h5,
+						h6 {
+							font-family: "Amatic SC", sans-serif
+						}*/
 
 		.dashed-line {
 			border: none;
@@ -191,8 +121,8 @@ else
 		.add-button {
 			margin: 0px;
 			/*margin-top: 20px;
-					margin-bottom: 20px;
-					margin-left: 20px;*/
+							margin-bottom: 20px;
+							margin-left: 20px;*/
 			background-color: #337ab7;
 			color: #fff;
 			border: none;
@@ -240,17 +170,15 @@ else
 
 				id = $(this).attr('id');
 				price = $(this).attr('price');
-				//price = $(this).siblings().children('.item-price').text();
-				//qty = $(this).siblings().children('.item-price').text();
 				vm.details.push({ foodItemId: id, quantity: qty, price: price });
-				console.log(vm);
 			});
 			$('.submit-button').click(function () {
 				$('.item-button').text('+').attr('disabled', false).toggleClass('added');
 				$.ajax({
-					url: "/api/employeeorders",
+					url: "/api/orders/",
 					method: "post",
-					data: vm
+					data: JSON.stringify(vm),
+					contentType: "application/json"
 				})
 					.done(function () {
 						toastr.success("Order placed.");

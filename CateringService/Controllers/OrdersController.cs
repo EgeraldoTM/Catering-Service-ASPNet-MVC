@@ -1,35 +1,44 @@
 ﻿using System.Security.Claims;
+using AutoMapper;
+using CateringService.Core;
+using CateringService.Core.DTOs;
 using CateringService.Core.IRepositories;
 using CateringService.Web.ViewModels;
 using Core;
 using Core.IRepositories;
 using Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CateringService.Web.Controllers;
 
-//[Authorize(Roles = RoleName.Employee)]
+[Authorize(Roles = RoleName.Employee)]
 public class OrdersController : Controller
 {
 	private readonly IOrderRepository _orderRepository;
 	private readonly IRepository<OrderDetail> _detailRepository;
 	private readonly IUnitOfWork _unitOfWork;
-	public OrdersController(IOrderRepository orderRepository, IRepository<OrderDetail> detailRepository, IUnitOfWork unitOfWork)
+	private readonly IMapper _mapper;
+	public OrdersController(IOrderRepository orderRepository, IRepository<OrderDetail> detailRepository, IUnitOfWork unitOfWork, IMapper mapper)
 	{
 		_orderRepository = orderRepository;
 		_detailRepository = detailRepository;
 		_unitOfWork = unitOfWork;
+		_mapper = mapper;
 	}
 	public async Task<IActionResult> Index(DateTime? date)
 	{
 		var emplyeeId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-		var filter = date == null ? DateTime.Now.Date : date.Value;
+		DateTime? filter = null;
+
+		if (date != null)
+			filter = date.Value;
 
 		var order = await _orderRepository.Get(filter, emplyeeId);
 
 		var viewModel = new OrderVM
 		{
-			Order = order
+			OrderDto = order != null ? _mapper.Map<Order, OrderDto>(order) : null
 		};
 
 		return View(viewModel);
@@ -41,7 +50,9 @@ public class OrdersController : Controller
 
 		var order = await _orderRepository.Get(null, emplyeeId);
 
-		return View(order);
+		var orderDto = order != null ? _mapper.Map<Order, OrderDto>(order) : null;
+
+		return View(orderDto);
 	}
 
 	public async Task<IActionResult> SubtractQuantity(int id)

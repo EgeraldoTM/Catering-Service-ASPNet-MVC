@@ -1,10 +1,10 @@
-﻿using Core.Models;
+﻿using CateringService.Core.DTOs;
 
 namespace CateringService.Web.ViewModels
 {
 	public class OrderVM
 	{
-		public Order? Order { get; set; }
+		public OrderDto? OrderDto { get; set; }
 		public DateOnly Date { get; set; }
 	}
 }
