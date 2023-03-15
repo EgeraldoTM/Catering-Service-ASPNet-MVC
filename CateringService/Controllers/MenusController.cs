@@ -51,10 +51,11 @@ public class MenusController : Controller
         return View();
     }
 
+
     [Authorize(Roles = RoleName.Cook)]
     public async Task<IActionResult> Edit(int id)
     {
-        var menu = await _menuRepository.Get(id);
+        var menu = await _menuRepository.GetMenu(id);
 
         if (menu == null)
             return NotFound("Menu not found");
@@ -68,7 +69,7 @@ public class MenusController : Controller
     [HttpDelete]
     public async Task<IActionResult> DeleteItem(int id, int foodItemId)
     {
-        var menu = await _menuRepository.Get(id);
+        var menu = await _menuRepository.GetMenu(id);
 
         if (menu == null)
             return NotFound("Menu not found");
@@ -86,7 +87,6 @@ public class MenusController : Controller
     }
 
     [Authorize(Roles = RoleName.Cook)]
-    //[HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
         var menu = await _menuRepository.Get(id);

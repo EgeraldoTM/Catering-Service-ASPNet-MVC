@@ -52,7 +52,7 @@ public class DailyMenusController : ControllerBase
 	[HttpPut("{id}")]
 	public async Task<IActionResult> Edit(int id, [FromForm] NewMenuDto menuDto)
 	{
-		var menuInDb = await _menuRepository.Get(id);
+		var menuInDb = await _menuRepository.GetMenu(id);
 
 		if (menuInDb == null)
 			return NotFound();

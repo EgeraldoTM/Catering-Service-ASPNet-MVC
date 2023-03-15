@@ -9,9 +9,9 @@ namespace Infrastructure.Persistence.Repositories
     public class MenuRepository : Repository<Menu>, IMenuRepository
 	{
 		public MenuRepository(ApplicationDbContext context) : base(context) { }
-		public async Task<Menu?> GetWithItems(int id)
+		public async Task<Menu?> GetMenu(int id)
 		{
-			return await _context.Menus.Include(m => m.FoodItems).SingleOrDefaultAsync(m => m.Id == id);
+			return await _context.Menus.Include(m => m.FoodItems).FirstOrDefaultAsync(m => m.Id == id);
 		}
 		public async Task<Menu?> GetForToday()
 		{
