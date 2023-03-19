@@ -1,0 +1,75 @@
+﻿@using CateringService.Web.ViewModels.Admin;
+
+@model CreateVM
+
+@{
+	ViewData["Title"] = "New User";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+	<div class="col-md-4">
+		<form asp-action="Create" method="post">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-floating">
+				<input asp-for="FirstName" class="form-control" aria-required="true" />
+				<label asp-for="FirstName"></label>
+				<span asp-validation-for="FirstName" class="text-danger"></span>
+			</div>
+			<br />
+			<div class="form-floating">
+				<input asp-for="LastName" class="form-control" aria-required="true" />
+				<label asp-for="LastName"></label>
+				<span asp-validation-for="LastName" class="text-danger"></span>
+			</div>
+			<br />
+			<div class="form-floating">
+				<input asp-for="ID" class="form-control" aria-required="true" />
+				<label asp-for="ID"></label>
+				<span asp-validation-for="ID" class="text-danger"></span>
+			</div>
+			<br />
+			<div class="form-floating">
+				<input asp-for="Email" class="form-control" aria-required="true" />
+				<label asp-for="Email"></label>
+				<span asp-validation-for="Email" class="text-danger"></span>
+			</div>
+			<br />
+			<div class="form-floating">
+				<input asp-for="Birthday" asp-format="{0:dd/MM/yyyy}" class="form-control" aria-required="true" />
+				<label asp-for="Birthday"></label>
+				<span asp-validation-for="Birthday" class="text-danger"></span>
+			</div>
+			<br />
+			<div class="form-floating">
+				<input asp-for="PhoneNumber" class="form-control" aria-required="true" />
+				<label asp-for="PhoneNumber"></label>
+				<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+			</div>
+			<br />
+			<div class="form-floating">
+				<select asp-for="Role" asp-items="Model.Roles" class="form-control" aria-required="true"><option value="">Select Role</option></select>
+				<label asp-for="Role"></label>
+				<span asp-validation-for="Role" class="text-danger"></span>
+			</div>
+			<br />
+			<div class="form-floating">
+				<input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" />
+				<label asp-for="Password"></label>
+				<span asp-validation-for="Password" class="text-danger"></span>
+			</div>
+			<br />
+			<div class="form-floating">
+				<input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+				<label asp-for="ConfirmPassword"></label>
+				<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+			</div>
+			<br />
+			<button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Create</button>
+		</form>
+	</div>
+</div>
+@section Scripts{
+	<partial name="_ValidationScriptsPartial" />
+}

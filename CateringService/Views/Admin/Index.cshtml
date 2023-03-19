@@ -1,0 +1,69 @@
+﻿@using CateringService.Web.ViewModels.Admin;
+
+@model IndexVM
+
+<form class="col-md-4" asp-action="Index">
+	<div class="row">
+		<div class="col">
+			Filter:<input asp-for="Filter" class="form-control" />
+		</div>
+		<div class="col">
+			Roles:<select asp-for="RoleFilter" asp-items="Model.Roles" class="form-control" aria-required="true"><option value="">All</option></select>
+		</div>
+		<div class="col">
+			<br />
+			<input type="submit" value="Search" class="btn btn-outline-success" />
+		</div>
+	</div>
+</form>
+<br />
+<a asp-action="Create" class="btn btn-success" style="margin-bottom: 15px;"><i class="bi bi-plus-circle"></i> Create User</a>
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				First Name
+			</th>
+			<th>
+				Last Name
+			</th>
+			<th>
+				Email
+			</th>
+			<th>
+				Role
+			</th>
+			<th>
+				Phone Number
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var viewModel in Model.Users)
+		{
+			<tr>
+				<th>
+					@viewModel.User.FirstName
+				</th>
+				<th>
+					@viewModel.User.FirstName
+				</th>
+				<th>
+					@viewModel.User.Email
+				</th>
+				<th>
+					@viewModel.Role
+				</th>
+				<th>
+					@viewModel.User.PhoneNumber
+				</th>
+				<td>
+					<a asp-action="Details" asp-route-id="@viewModel.User.Id">Details</a> |
+					<a asp-action="Edit" asp-route-id="@viewModel.User.Id">Edit</a> |
+					<a asp-action="Delete" asp-route-id="@viewModel.User.Id">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

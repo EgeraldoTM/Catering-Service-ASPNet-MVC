@@ -10,5 +10,6 @@ namespace CateringService.Core
 	{
 		public const string Cook = "cook";
 		public const string Employee = "employee";
+		public const string Admin = "Admin";
 	}
 }

@@ -2,6 +2,7 @@ using CateringService.Core.IRepositories;
 using CateringService.Core.Services;
 using CateringService.Data;
 using CateringService.Infrastructure.Persistence.Repositories.Base;
+using CateringService.Web.Areas.Identity;
 using Core;
 using Core.IRepositories;
 using Core.Models;
@@ -39,7 +40,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddSignInManager<CustomSignInManager>();
 
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
