@@ -1,6 +1,6 @@
 # Catering-Service-ASPNet-MVC
 
-ASP.Net Core MVC project (.Net 6). 
+ASP.Net Core MVC project (.Net 6)
 
 ### Scenario
 
