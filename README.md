@@ -16,13 +16,13 @@ domain models, Data Transfer Objects for these models and the interfaces which
 define the contracts that different layers communicate with each other without knowing the
 the implementation details. The Core define the business logic.
 
-*The Infrastructure layer contains data access and persistence logic. This layer is 
+* The Infrastructure layer contains data access and persistence logic. This layer is 
 responsible for communicating with external systems, in this case the database.
 In this project, there are classes that implement the repository pattern, which 
 provides an abstraction layer over data access to make the code more testable and 
 maintainable.
 
-*The Web layer is built on top of the Core and Infrastructure projects. It contains
+* The Web layer is built on top of the Core and Infrastructure projects. It contains
 the Controllers, Views, ViewModels, static javasScript and Css files, configuration
 files. The Program.cs is also located in this project
 
