@@ -11,7 +11,7 @@ cooks to understand how much of each food to prepare.
 
 ### Details
 
-*The Core layer is the main layer which the other projects depend to. It contains mainly the 
+* The Core layer is the main layer which the other projects depend to. It contains mainly the 
 domain models, Data Transfer Objects for these models and the interfaces which
 define the contracts that different layers communicate with each other without knowing the
 the implementation details. The Core define the business logic.
