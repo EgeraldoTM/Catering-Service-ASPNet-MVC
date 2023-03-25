@@ -34,11 +34,11 @@ public class OrdersController : ControllerBase
 
 		if (order == null)
 		{
-			await _orderService.Create(orderDto, employeeId);
+			await _orderService.CreateOrder(orderDto, employeeId);
 		}
 		else
 		{
-			await _orderService.Edit(order.Id, orderDto);
+			await _orderService.EditOrder(order.Id, orderDto);
 		}
 
 		return Ok();

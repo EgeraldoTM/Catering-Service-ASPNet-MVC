@@ -16,7 +16,7 @@ public class OrderService : IOrderService
 		_unitOfWork = unitOfWork;
 	}
 
-	public async Task Create(NewOrderDto orderDto, string employeeId)
+	public async Task CreateOrder(NewOrderDto orderDto, string employeeId)
 	{
 		var order = new Order
 		{
@@ -37,7 +37,7 @@ public class OrderService : IOrderService
 		await _unitOfWork.CompleteAsync();
 	}
 
-	public async Task Edit(int id, NewOrderDto orderDto)
+	public async Task EditOrder(int id, NewOrderDto orderDto)
 	{
 		var orderInDb = await _orderRepository.Get(id);
 
