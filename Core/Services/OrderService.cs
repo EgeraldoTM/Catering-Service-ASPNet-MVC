@@ -1,4 +1,5 @@
-﻿using CateringService.Core.DTOs;
+﻿using AutoMapper;
+using CateringService.Core.DTOs;
 using Core;
 using Core.IRepositories;
 using Core.Models;
@@ -10,27 +11,32 @@ public class OrderService : IOrderService
 {
 	private readonly IOrderRepository _orderRepository;
 	private readonly IUnitOfWork _unitOfWork;
-	public OrderService(IOrderRepository orderRepository, IUnitOfWork unitOfWork)
+	private readonly IMapper _mapper;
+
+	public OrderService(IOrderRepository orderRepository, IUnitOfWork unitOfWork, IMapper mapper)
 	{
 		_orderRepository = orderRepository;
 		_unitOfWork = unitOfWork;
+		_mapper = mapper;
 	}
 
 	public async Task CreateOrder(NewOrderDto orderDto, string employeeId)
 	{
-		var order = new Order
-		{
-			EmployeeId = employeeId,
-			OrderDetails = new List<OrderDetail>()
-		};
+		var order = _mapper.Map<NewOrderDto, Order>(orderDto);
+		order.EmployeeId = employeeId;
+		//var order = new Order
+		//{
+		//	EmployeeId = employeeId,
+		//	OrderDetails = new List<OrderDetail>()
+		//};
 
-		order.OrderDetails = orderDto.Details
-			.Select(d => new OrderDetail
-			{
-				FoodItemId = d.FoodItemId,
-				Quantity = d.Quantity,
-				Price = d.Price
-			}).ToList();
+		//order.OrderDetails = orderDto.Details
+		//	.Select(d => new OrderDetail
+		//	{
+		//		FoodItemId = d.FoodItemId,
+		//		Quantity = d.Quantity,
+		//		Price = d.Price
+		//	}).ToList();
 
 		_orderRepository.Add(order);
 
@@ -41,27 +47,29 @@ public class OrderService : IOrderService
 	{
 		var orderInDb = await _orderRepository.Get(id);
 
-		var foodIds = orderInDb!.OrderDetails.Select(d => d.FoodItemId).ToList();
-		var newDetails = orderDto.Details
-			.Where(d => !foodIds.Contains(d.FoodItemId))
-			.Select(d => new OrderDetail
-			{
-				FoodItemId = d.FoodItemId,
-				Quantity = d.Quantity,
-				Price = d.Price
-			});
+		_mapper.Map(orderDto, orderInDb);
 
-		var details = orderDto.Details
-			.Where(d => foodIds.Contains(d.FoodItemId))
-			.ToDictionary(d => d.FoodItemId, d => d.Quantity);
+		//var foodIds = orderInDb!.OrderDetails.Select(d => d.FoodItemId).ToList();
+		//var newDetails = orderDto.Details
+		//	.Where(d => !foodIds.Contains(d.FoodItemId))
+		//	.Select(d => new OrderDetail
+		//	{
+		//		FoodItemId = d.FoodItemId,
+		//		Quantity = d.Quantity,
+		//		Price = d.Price
+		//	});
 
-		orderInDb.OrderDetails.AddRange(newDetails);
+		//var details = orderDto.Details
+		//	.Where(d => foodIds.Contains(d.FoodItemId))
+		//	.ToDictionary(d => d.FoodItemId, d => d.Quantity);
 
-		foreach (var orderDetail in orderInDb.OrderDetails)
-		{
-			if (details.ContainsKey(orderDetail.FoodItemId))
-				orderDetail.Quantity += details[orderDetail.FoodItemId];
-		}
+		//orderInDb.OrderDetails.AddRange(newDetails);
+
+		//foreach (var orderDetail in orderInDb.OrderDetails)
+		//{
+		//	if (details.ContainsKey(orderDetail.FoodItemId))
+		//		orderDetail.Quantity += details[orderDetail.FoodItemId];
+		//}
 
 		await _unitOfWork.CompleteAsync();
 	}
