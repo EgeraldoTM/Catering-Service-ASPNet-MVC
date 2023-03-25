@@ -34,7 +34,7 @@ public class OrdersController : Controller
 		if (date != null)
 			filter = date.Value;
 
-		var order = await _orderRepository.Get(filter, emplyeeId);
+		var order = await _orderRepository.Get(emplyeeId, filter);
 
 		var viewModel = new OrderVM
 		{
@@ -48,7 +48,7 @@ public class OrdersController : Controller
 	{
 		var emplyeeId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-		var order = await _orderRepository.Get(null, emplyeeId);
+		var order = await _orderRepository.Get(emplyeeId);
 
 		var orderDto = order != null ? _mapper.Map<Order, OrderDto>(order) : null;
 

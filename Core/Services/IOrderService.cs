@@ -9,6 +9,7 @@ namespace CateringService.Core.Services
 {
     public interface IOrderService
     {
-        Task Save(NewOrderDto orderDto, string employeeId);
+        Task Create(NewOrderDto orderDto, string employeeId);
+        Task Edit(int id, NewOrderDto orderDto);
     }
 }

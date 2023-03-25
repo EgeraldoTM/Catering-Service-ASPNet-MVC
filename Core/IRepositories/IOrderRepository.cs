@@ -5,7 +5,7 @@ namespace Core.IRepositories
 {
 	public interface IOrderRepository : IRepository<Order>
 	{
-		Task<Order?> Get(DateTime? date, string employeeId);
+		Task<Order?> Get(string employeeId, DateTime? date = null);
 		Task<Order?> GetWithDetails(string employeeId);
 	}
 }

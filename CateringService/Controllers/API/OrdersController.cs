@@ -17,9 +17,12 @@ namespace CateringService.Web.Controllers.API;
 public class OrdersController : ControllerBase
 {
 	private readonly IOrderService _orderService;
-	public OrdersController(IOrderService orderService)
+	private readonly IOrderRepository _orderRepository;
+
+	public OrdersController(IOrderService orderService, IOrderRepository orderRepository)
 	{
 		_orderService = orderService;
+		_orderRepository = orderRepository;
 	}
 
 	[HttpPost]
@@ -27,7 +30,16 @@ public class OrdersController : ControllerBase
 	{
 		var employeeId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-		await _orderService.Save(orderDto, employeeId);
+		var order = await _orderRepository.Get(employeeId);
+
+		if (order == null)
+		{
+			await _orderService.Create(orderDto, employeeId);
+		}
+		else
+		{
+			await _orderService.Edit(order.Id, orderDto);
+		}
 
 		return Ok();
 	}

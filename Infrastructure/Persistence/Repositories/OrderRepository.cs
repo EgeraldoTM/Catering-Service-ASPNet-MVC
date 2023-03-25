@@ -9,15 +9,15 @@ namespace Infrastructure.Persistence.Repositories
 	public class OrderRepository : Repository<Order>, IOrderRepository
 	{
 		public OrderRepository(ApplicationDbContext context) : base(context) { }
-		public async Task<Order?> Get(DateTime? date, string employeeId)
+		public async Task<Order?> Get(string employeeId, DateTime? date = null)
 		{
-			var filter = date == null ? DateTime.Now.Date : date.Value;
+			var filter = date == null ? DateTime.Now.Date : date.Value.Date;
 
 			var order = await _context.Orders
 				.Include(o => o.Employee)
 				.Include(o => o.OrderDetails)
 				.ThenInclude(d => d.FoodItem)
-				.Where(o => o.OrderPlaced.Date == filter.Date && o.Employee.Id == employeeId && o.IsDeleted == false)
+				.Where(o => o.OrderPlaced.Date == filter && o.Employee.Id == employeeId && o.IsDeleted == false)
 				.FirstOrDefaultAsync();
 
 			return order;
