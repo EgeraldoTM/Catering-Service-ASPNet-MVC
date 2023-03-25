@@ -1,11 +1,9 @@
 ﻿using CateringService.Core;
-using System.Data;
 using CateringService.Core.DTOs;
 using Core;
 using Core.IRepositories;
 using Core.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CateringService.Web.Controllers.API;
@@ -18,12 +16,17 @@ public class DailyMenusController : ControllerBase
 	private readonly IFoodItemRepository _foodItemRepository;
 	private readonly IMenuRepository _menuRepository;
 	private readonly IUnitOfWork _unitOfWork;
-	public DailyMenusController(IFoodItemRepository foodItemRepository, IMenuRepository menuRepository, IUnitOfWork unitOfWork)
+
+	public DailyMenusController(
+		IFoodItemRepository foodItemRepository,
+		IMenuRepository menuRepository,
+		IUnitOfWork unitOfWork)
 	{
 		_foodItemRepository = foodItemRepository;
 		_menuRepository = menuRepository;
 		_unitOfWork = unitOfWork;
 	}
+
 
 	[HttpPost]
 	public async Task<IActionResult> Create([FromForm] NewMenuDto menuDto)
@@ -63,7 +66,7 @@ public class DailyMenusController : ControllerBase
 		{
 			var foodItems = await _foodItemRepository.Find(f => menuDto.FoodIds.Contains(f.Id));
 
-			if (menuInDb.FoodItems == null || !menuInDb.FoodItems.Any())
+			if (!menuInDb.FoodItems.Any())
 			{
 				menuInDb.FoodItems = foodItems.ToList();
 			}

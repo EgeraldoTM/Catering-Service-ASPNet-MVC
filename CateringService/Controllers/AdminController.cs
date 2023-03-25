@@ -1,4 +1,4 @@
-﻿using CateringService.Web.Areas.Identity;
+﻿using CateringService.Core;
 using CateringService.Web.ViewModels.Admin;
 using Core.Models;
 using Microsoft.AspNetCore.Identity;
@@ -22,7 +22,7 @@ namespace CateringService.Web.Controllers
 
         public async Task<IActionResult> Index(string? filter, string? roleFilter)
 		{
-			var usersInDb = _userManager.Users.Where(u => u.FirstName != "Admin");
+			var usersInDb = _userManager.Users.Where(u => u.FirstName != RoleName.Admin);
 
 			if (!string.IsNullOrWhiteSpace(filter))
 			{
