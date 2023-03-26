@@ -10889,3 +10889,7 @@ textarea.form-control-lg {
 .badge.bg-light {
   color: #333;
 }
+
+label.error{
+    color: red;
+}

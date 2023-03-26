@@ -13,13 +13,13 @@
 		<form id="newMenu">
 			<div class="form-group">
 				<label>Date</label>
-				<input id="date" type="date" value="" min="@date" max="" class="form-control" />
+				<input id="date" required name="date" type="date" value="" min="@date" max="" class="form-control" />
 			</div>
 			<br />
 			<div class="form-group">
 				<label>Food Name</label>
 				<div class="tt-container"></div>
-				<input id="food" type="text" value="" maxlength="60" class="form-control" />
+				<input id="food" data-rule-validFoodItem="true" name="foodItem" type="text" value="" maxlength="60" class="form-control" />
 			</div>
 			<br />
 			<ul id="foodItems" class="list-group"></ul>
@@ -31,6 +31,8 @@
 </div>
 @section scripts
 	{
+	<partial name="_ValidationScriptsPartial" />
+
 	<script>
 		$(document).ready(function () {
 
@@ -65,25 +67,33 @@
 				}
 			});
 
+			$.validator.addMethod("validFoodItem", function(){
+				return $('#food').val() === "";
+			}, "Please select a valid Food Item.");
+
 			var input;
-			$("#newMenu").submit(function (e) {
-				e.preventDefault();
+			$("#newMenu").validate({
+				submitHandler: function(){
 
-				input = $('#date').val();
-				vm.date = input;
+					input = $('#date').val();
+					vm.date = input;
 
-				$.ajax({
-					url: "/api/dailymenus",
-					method: "post",
-					data: vm
-				})
-					.done(function () {
-						toastr.success("Menu successfully created.");
+					$.ajax({
+						url: "/api/dailymenus",
+						method: "post",
+						data: vm
 					})
-					.fail(function () {
-						toastr.error("Something unexpected happened.");
-					});
-				$('#food').val('');
+						.done(function () {
+							toastr.success("Menu successfully created.");
+							$('#date').val('');
+							$('#foodItems').empty();
+						})
+						.fail(function () {
+							toastr.error("Something unexpected happened.");
+						});
+					$('#food').val('');
+					return false;
+				}
 			});
 		});
 	</script>
