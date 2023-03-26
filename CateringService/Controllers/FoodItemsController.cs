@@ -17,13 +17,18 @@ public class FoodItemsController : Controller
 	private readonly IFoodItemRepository _foodItemRepository;
 	private readonly IUnitOfWork _unitOfWork;
 	private readonly IMapper _mapper;
-    public FoodItemsController(IRepository<Category> categoryRepository, IFoodItemRepository foodItemRepository, IUnitOfWork unitOfWork, IMapper mapper)
+    public FoodItemsController(
+		IRepository<Category> categoryRepository,
+		IFoodItemRepository foodItemRepository,
+		IUnitOfWork unitOfWork,
+		IMapper mapper)
     {
 		_categoryRepository = categoryRepository;
 		_foodItemRepository = foodItemRepository;
 		_unitOfWork = unitOfWork;
 		_mapper = mapper;
     }
+
     public IActionResult Index()
 	{
 		if (User.IsInRole(RoleName.Cook))

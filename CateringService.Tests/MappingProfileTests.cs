@@ -1,9 +1,7 @@
-using System.ComponentModel.Design;
 using AutoMapper;
 using CateringService.Core.DTOs;
 using CateringService.Infrastructure;
 using Core.Models;
-using Moq;
 
 namespace CateringService.Tests;
 
