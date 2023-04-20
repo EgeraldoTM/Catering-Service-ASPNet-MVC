@@ -17,7 +17,7 @@ define the contracts that different layers communicate with each other without k
 the implementation details. The Core define the business logic.
 
 * The Infrastructure layer contains data access and persistence logic. This layer is 
-responsible for communicating with external systems, in this case the database.
+responsible for communicating with external systems like the database.
 In this project, there are classes that implement the repository pattern, which 
 provides an abstraction layer over data access to make the code more testable and 
 maintainable.
